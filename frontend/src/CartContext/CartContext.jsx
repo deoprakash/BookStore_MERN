@@ -20,9 +20,9 @@ const loadInitialState = () => {
 
 const cartReducer = (state, action) => {
     switch (action.type){
-        case "ADD ITEM": {
+        case "ADD_ITEM": {
             const itemToAdd = {...action.payload, quantity: action.payload.quantity || 1}
-            const exists = state.iems.find(
+            const exists = state.items.find(
                 (i) => i.id === itemToAdd.id && (i.source === itemToAdd.source || (!i.source && !itemToAdd.source))
             )
             if(exists) {
@@ -56,11 +56,14 @@ const cartReducer = (state, action) => {
         case "REMOVE_ITEM":
             return {
                 ...state,
-                items: state.items.filter((i) => i.id === action.payload.id && (i.source === action.payload.source || (!i.source === !action.payload.source))
-                
-            )
-            .filter((i) => i.quantity > 0)
+                items: state.items.filter((i) => !(
+                    i.id === action.payload.id && 
+                    (i.source === action.payload.source || (!i.source === !action.payload.source))
+                ),
+            ),
         }
+        default: 
+        return state
     }      
 }
 
