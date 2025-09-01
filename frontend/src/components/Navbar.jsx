@@ -15,7 +15,7 @@ const Navbar = () => {
 
     const { cart } = useCart()
 
-    const totalQuantity = cart.items.reduce((total, item) => total+ item.quanitity, 0)
+    const totalQuantity = cart.items.reduce((total, item) => total+ item.quantity, 0)
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.screenY > 10)
@@ -132,7 +132,7 @@ const Navbar = () => {
                             )}
                         </Link>
 
-                        <Link to='login' className=' p-2 group' onClick={()=>setIsOpen(false)}>
+                        <Link to='/login' className=' p-2 group' onClick={()=>setIsOpen(false)}>
 
                         <User className='  h-5 w-5 text-gray-600 group-hover:text-amber-600' />
                             

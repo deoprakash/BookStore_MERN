@@ -80,9 +80,9 @@ const Banner = () => {
                     {/* STATS */}
                     <div className={statsContainer}>
                         {[
-                            {number: "50k+", label:"Titles"},
-                            {number: "1.2M", label:"Readers"},
-                            {number: "240+", label:"Topics"}
+                            {number: "1k+", label:"Titles"},
+                            {number: "10k+", label:"Readers"},
+                            {number: "5k+", label:"Topics"}
                         ].map((stat, i) => (
                             <div className={statBox} key={i}>
                                 <div className={statNumber}>

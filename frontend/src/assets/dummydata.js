@@ -268,9 +268,9 @@ export const hbbooks = [
 
 // HA DUMMY DATA
 export const hastats = [
-  { icon: BookOpen, value: "10K+", label: "Books Collection" },
-  { icon: Users, value: "50K+", label: "Happy Readers" },
-  { icon: Award, value: "15+", label: "Industry Awards" },
+  { icon: BookOpen, value: "1K+", label: "Books Collection" },
+  { icon: Users, value: "10K+", label: "Happy Readers" },
+  { icon: Award, value: "5+", label: "Industry Awards" },
 ]
 
 export const featuredBooks = [
