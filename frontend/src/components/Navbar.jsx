@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import {navbarStyles} from '../assets/dummystyles'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import logo from "../assets/vp_logo.png"
 import {navItems} from '../assets/dummydata'
 import { FaOpencart } from 'react-icons/fa'
-import { Menu, User, X } from 'lucide-react'
+import { Menu, User, X, LogOut } from 'lucide-react'
 import { useCart } from '../CartContext/CartContext'
 
 const Navbar = () => {
@@ -12,10 +12,21 @@ const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
     const [isOpen, setIsOpen] = useState(false)
     const location = useLocation()
+    const navigate = useNavigate()
 
     const { cart } = useCart()
 
     const totalQuantity = cart.items.reduce((total, item) => total+ item.quantity, 0)
+    
+    // Check if user is logged in
+    const isLoggedIn = localStorage.getItem('authToken')
+    
+    // Logout handler
+    const handleLogout = () => {
+        localStorage.removeItem('authToken')
+        navigate('/')
+        // Optional: show toast notification
+    }
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.screenY > 10)
@@ -81,12 +92,23 @@ const Navbar = () => {
                             )}
                         </div>
                         </Link>
-                        <Link to='/login' className={navbarStyles.loginWrapper}>
-                                <div className={navbarStyles.logoGradient} />
+                        
+                        {/* Login/Logout Button */}
+                        {isLoggedIn ? (
+                            <button onClick={handleLogout} className={navbarStyles.loginWrapper}>
+                                <div className={navbarStyles.loginGradient} />
+                                <div className='relative'>
+                                    <LogOut className={navbarStyles.loginIcon} />
+                                </div>
+                            </button>
+                        ) : (
+                            <Link to='/Login' className={navbarStyles.loginWrapper}>
+                                <div className={navbarStyles.loginGradient} />
                                 <div className='relative'>
                                     <User className={navbarStyles.loginIcon} />
                                 </div>
-                        </Link>
+                            </Link>
+                        )}
                     </div>
 
                     {/* MOBILE MENU */}

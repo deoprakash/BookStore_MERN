@@ -334,9 +334,27 @@ export const apstats = [
 ]
 
 export const apteamMembers = [
-  { id: 1, name: "Sarah Johnson", position: "CEO & Founder", image: A1 },
-  { id: 2, name: "Michael Chen", position: "CTO", image: A2 },
-  { id: 3, name: "Emma Williams", position: "Head Editor", image: A3 }
+  { 
+    id: 1, 
+    name: "Sarah Johnson", 
+    position: "CEO & Founder", 
+    image: A1,
+    about: "Visionary leader with 15+ years in publishing. Sarah founded the company with a mission to revolutionize digital storytelling and connect authors with global audiences."
+  },
+  { 
+    id: 2, 
+    name: "Michael Chen", 
+    position: "CTO", 
+    image: A2,
+    about: "Tech innovator specializing in scalable digital platforms. Michael leads our technical team in building cutting-edge solutions for modern publishing needs."
+  },
+  { 
+    id: 3, 
+    name: "Emma Williams", 
+    position: "Head Editor", 
+    image: A3,
+    about: "Award-winning editor with expertise in fiction and non-fiction. Emma ensures every publication meets our high standards of quality and storytelling excellence."
+  }
 ]
 
 export const apbranches = [
