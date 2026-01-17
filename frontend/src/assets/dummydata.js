@@ -44,7 +44,7 @@ import A1 from "../assets/A1.png"
 import A2 from "../assets/A2.png"
 import A3 from "../assets/A3.png"
 
-const books = [
+export const books = [
   {
     id: 1,
     title: "Le Tour Do Monde",
@@ -174,8 +174,6 @@ const books = [
     image: BP16,
   },
 ];
-
-export default books;
 
 export const branches = [
   {
