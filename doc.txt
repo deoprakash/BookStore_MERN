@@ -1,0 +1,12 @@
+bcrypt & bcryptjs- used for hashing and comparing password
+body-parser - act as a middleware for incoming request from the body
+cors - help in cross origin platform share
+dotenv - share secrets from environment file
+express - web framework
+jsonwebtoken - generate and verify JWT token
+mongoose - ODM lib for mongodb
+multer - help in uploading images
+nodemon - to start server
+stripe - payment gateway
+uuid - generate unique id
+validator - validate 

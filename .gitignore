@@ -1,0 +1,46 @@
+# Node.js
+node_modules/
+.env
+*.log
+dist/
+build/
+
+# Vite
+frontend/dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+
+# Misc
+*.sqlite
+*.db
+
+# Frontend
+frontend/node_modules/
+frontend/.env
+frontend/.DS_Store
+frontend/.vscode/
+
+# Backend
+backend/node_modules/
+backend/.env
+backend/.DS_Store
+backend/.vscode/
+
+# Coverage
+coverage/
+
+# Others
+*.tgz
+*.zip
+*.tar
+*.gz
+*.rar
+
+# Ignore all generated files
+frontend/public/
+backend/public/
