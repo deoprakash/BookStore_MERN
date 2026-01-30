@@ -1,6 +1,6 @@
 import express from 'express'
 import multer from 'multer'
-import { createBook } from '../controllers/bookController';
+import { createBook, getBooks, deleteBook } from '../controllers/bookController.js';
 
 
 const bookRouter = express.Router()
