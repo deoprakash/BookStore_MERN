@@ -1,9 +1,10 @@
 import React from 'react'
+import SideBar from './components/SideBar.jsx'
 
 const App = () => {
   return (
-    <div>
-      <h1 className='text-3xl font-bold underline'> Hello World! </h1>
+    <div className=' flex min-h-screen bg-gray-50'>
+    <SideBar />
     </div>
   )
 }
