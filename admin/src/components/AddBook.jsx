@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { styles } from '../assets/dummyStyles'
 import axios from 'axios'
-import { Star } from 'lucide-react';
+import { BookPlus, Star } from 'lucide-react';
 
 
 const initialFormData = {
@@ -73,8 +73,8 @@ const AddBook = () => {
 
     setFormData (prev => ({
       ...prev,
-    image: File,
-    preview: URL.createObjectURL(file)
+      image: file,
+      preview: URL.createObjectURL(file)
     }))  
   }
 
@@ -149,10 +149,47 @@ const AddBook = () => {
                 </select>
             </div>
 
-            <div>
-              
+            <div className={styles.formItem}>
+              <label className={styles.formLabel}>Cover Image</label>
+              <input type='file'
+                name="image"
+                accept='image/*'
+                onChange={handleImageChange}
+                className={styles.formInput} />
+            </div>
+
+            <div className={`${styles.formItem} md:col-span-2`}>
+              <label className={styles.formLabel}>Description</label>
+              <textarea 
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              rows="4"
+              className={styles.formTextarea}
+              placeholder='Enter Book Description'></textarea>
             </div>
           </div>
+
+          {formData.preview && (
+            <div className={styles.previewContainer}>
+              <h3 className={styles.previewTitle}>Cover preview</h3>
+              <img src={formData.preview} alt="Image"
+              className={styles.previewImg} />
+            </div>
+          )}
+
+          {message.text && (
+            <p className={`text-${message.type === 'success' ? 'green' : 'red'}-500`}>{message.text}</p>
+          )} 
+          
+        <div className={styles.submitContainer}>
+          <button 
+          disabled={loading} 
+          type='submit' className={styles.submitButton}>
+            <BookPlus className=' w-5 h-5' />
+            <span>Add Book to collection</span>
+          </button>
+        </div>
         </form>
       </div>
     </div>

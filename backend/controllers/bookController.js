@@ -45,25 +45,21 @@ export const getBooks = async (req, res, next) => {
 
 export const deleteBook = async (req, res, next) => {
     try {
-        const book = await Book.findByIdAndDelete(req.param.id);
-        if (!book) 
-        {
-            return res.status(404).json
-            ({
-                message: 'Book not found.'
-            })
+        const book = await Book.findByIdAndDelete(req.params.id);
+        if (!book) {
+            return res.status(404).json({ message: 'Book not found.' });
         }
-        // Image handling
+        // Image handling - remove leading slash if present
         if (book.image) {
-            const filePath = path.join(process.cwd(), book.image);
+            const relative = book.image.startsWith('/') ? book.image.slice(1) : book.image;
+            const filePath = path.join(process.cwd(), relative);
             fs.unlink(filePath, (err) => {
                 if (err) console.warn('Failed to delete image file:', err)
             })
         }
-        res.join({ message: 'Book deleted successfully.'})
+        res.json({ message: 'Book deleted successfully.' })
 
-    }
-    catch (err) {
-        nexr(err)
+    } catch (err) {
+        next(err)
     }
 }

@@ -44,3 +44,4 @@ coverage/
 # Ignore all generated files
 frontend/public/
 backend/public/
+backend/uploads/
