@@ -190,7 +190,7 @@ export const styles = {
       `bg-gradient-to-t from-[#2B5876] to-[#43C6AC] text-white min-h-screen p-4 transition-all duration-300 ease-in-out ${isCollapsed ? 'w-20' : 'w-64'}`,
     header: "flex justify-between items-center mb-8",
     logoContainer: "flex items-center gap-3",
-    logoImageContainer: " bg-white p-2 rounded-lg",
+    logoImageContainer: " bg-white p-1 rounded-lg",
     logoImage: "w-10 h-10",
     title: "text-xl font-bold text-white",
     collapseButton: "p-2 rounded-full hover:bg-[#2B5876]/90 transition-colors",
