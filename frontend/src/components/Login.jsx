@@ -28,11 +28,26 @@ const Login = () => {
     }
     setIsSubmitting(true)
     try{
-      localStorage.setItem("authToken", 'demo-token')
-      setToast({visible: true, message:"Login Successfull!", type:"success"})
-      setTimeout(() => navigate('/'), 2000)
+      const res = await fetch('http://localhost:4000/api/user/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email, password: formData.password })
+      })
+      const data = await res.json()
+      if(!res.ok) {
+        setToast({visible: true, message: data.message || 'Login failed!', type: 'error'})
+        return
+      }
+      localStorage.setItem('authToken', data.token)
+      if(data.user) {
+        localStorage.setItem('userName', data.user.username || data.user.name || '')
+        localStorage.setItem('userEmail', data.user.email || '')
+      }
+      setToast({visible: true, message: 'Login Successful!', type: 'success'})
+      setTimeout(() => navigate('/'), 1200)
     }
-    catch {
+    catch (err) {
+      console.error('Login error', err)
       setToast({visible: true, message:"Login failed!", type:"error"})
     }
     finally{

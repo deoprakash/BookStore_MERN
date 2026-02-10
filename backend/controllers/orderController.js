@@ -73,7 +73,7 @@ export const createOrder = async (req, res, next) => {
 
         if(normalizedPM === 'Online Payment') {
             const session = await stripe.checkout.sessions.create({
-                payement_method_types: ['card'],
+                payment_method_types: ['card'],
                 mode: 'payment',
                 line_items: items.map(o => ({
                     price_data: {
