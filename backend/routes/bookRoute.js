@@ -1,19 +1,27 @@
-import express from 'express'
-import multer from 'multer'
-import { createBook, getBooks, deleteBook } from '../controllers/bookController.js';
+import express from "express";
+import multer from "multer";
+import {
+    createBook,
+    getBooks,
+    deleteBook,
+    getBookById,
+    updateBook,
+} from "../controllers/bookController.js";
+import adminAuth from "../middleware/adminAuth.js";
+import { storage } from "../config/cloudinary.js";
 
+const bookRouter = express.Router();
 
-const bookRouter = express.Router()
-// Multer setup
-const storage = multer.diskStorage({
-    destination: (_req, _file, cb) => cb(null, 'uploads/'),
-    filename: (_req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`),
-});
+const upload = multer({ storage });
 
-const uplaod = multer({ storage });
+bookRouter.post("/", adminAuth, upload.single("image"), createBook);
 
-bookRouter.post('/', uplaod.single('image'), createBook);
-bookRouter.get('/', getBooks);
-bookRouter.delete('/:id', deleteBook);
+bookRouter.get("/", getBooks);
+
+bookRouter.get("/:id", getBookById);
+
+bookRouter.put("/:id", adminAuth, upload.single("image"), updateBook);
+
+bookRouter.delete("/:id", adminAuth, deleteBook);
 
 export default bookRouter;

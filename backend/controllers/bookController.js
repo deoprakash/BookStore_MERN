@@ -8,9 +8,8 @@ import fs from 'fs'
 
 export const createBook = async (req, res, next) => {
     try {
-        const filename = req.file?.filename ?? null;
-        const imagePath = filename ? `/uploads/${filename}` : null
-        const { title, author, price, rating, category, description} = req.body;
+        const imagePath = req.file?.path || null;
+        const { title, author, price, rating, category, description, stockStatus} = req.body;
 
         const book = new Book({
             title, 
@@ -19,6 +18,7 @@ export const createBook = async (req, res, next) => {
             rating,
             category,
             description,
+            stockStatus: stockStatus || 'In Stock',
             image: imagePath
         });
         const saved = await book.save();
@@ -41,6 +41,66 @@ export const getBooks = async (req, res, next) => {
     }
 }
 
+//get book by id
+
+export const getBookById = async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id);
+
+        if (!book) {
+            return res.status(404).json({
+                message: "Book not found",
+            });
+        }
+
+        res.status(200).json(book);
+
+    } catch (err) {
+        res.status(500).json({
+            message: err.message,
+        });
+    }
+};
+
+//UPDATE BOOKS
+
+export const updateBook = async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id);
+
+        if (!book) {
+            return res.status(404).json({
+                message: "Book not found",
+            });
+        }
+
+        book.title = req.body.title;
+        book.author = req.body.author;
+        book.price = req.body.price;
+        book.rating = req.body.rating;
+        book.category = req.body.category;
+        book.description = req.body.description;
+        if (req.body.stockStatus) {
+            book.stockStatus = req.body.stockStatus;
+        }
+
+        // Update image only if a new one is uploaded
+        if (req.file) {
+            book.image = req.file.path;
+        }
+
+        await book.save();
+
+        res.status(200).json(book);
+
+    } catch (err) {
+        res.status(500).json({
+            message: err.message,
+        });
+    }
+};
+
+
 // DELETING BOOKS
 
 export const deleteBook = async (req, res, next) => {
@@ -49,14 +109,8 @@ export const deleteBook = async (req, res, next) => {
         if (!book) {
             return res.status(404).json({ message: 'Book not found.' });
         }
-        // Image handling - remove leading slash if present
-        if (book.image) {
-            const relative = book.image.startsWith('/') ? book.image.slice(1) : book.image;
-            const filePath = path.join(process.cwd(), relative);
-            fs.unlink(filePath, (err) => {
-                if (err) console.warn('Failed to delete image file:', err)
-            })
-        }
+        // Local image deletion is bypassed since Cloudinary handles it
+        // To delete from Cloudinary, we'd need to extract public_id and use cloudinary.uploader.destroy()
         res.json({ message: 'Book deleted successfully.' })
 
     } catch (err) {

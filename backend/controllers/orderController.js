@@ -9,12 +9,12 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const createOrder = async (req, res, next) => {
     try {
-        const { customer, items, paymentMethod, notes, deliveryDate } = req.body;
+        const { customer, items, paymentMethod, notes, deliveryDate, transactionId } = req.body;
         if(!Array.isArray(items) || items.length === 0 ){
             return res.status(400).json({ message: 'Invalid or empty items array.'});
         } 
 
-        const normalizedPM = ['Cash on Delivery', 'Online Payment'].includes(paymentMethod)
+        const normalizedPM = ['Cash on Delivery', 'Online Payment', 'QR Payment'].includes(paymentMethod)
             ? paymentMethod : 'Online Payment';
 
         const orderId = `ORD-${uuidv4()}`; //unique order id
@@ -47,7 +47,8 @@ export const createOrder = async (req, res, next) => {
         return {
             book: bookDoc._id,
             title: bookDoc.title,
-            author: bookDoc.image,
+            author: bookDoc.author,
+            image: bookDoc.image,
             price: Number(i.price),
             quantity: Number(i.quantity),
         };
@@ -65,6 +66,7 @@ export const createOrder = async (req, res, next) => {
             totalAmount,
             taxAmount,
             paymentMethod: normalizedPM,
+            transactionId,
             notes,
             deliveryDate,
         };
@@ -98,6 +100,19 @@ export const createOrder = async (req, res, next) => {
 
             await newOrder.save();
             return res.status(200).json({ order: newOrder, checkoutUrl: session.url })
+        }
+
+        //QR Payment
+        if(normalizedPM === 'QR Payment') {
+            if (!transactionId) {
+                return res.status(400).json({ message: 'Transaction ID is required for QR Payment.'});
+            }
+            const newOrder = new Order({
+                ...baseOrderData,
+                paymentStatus: 'Unpaid'
+            });
+            await newOrder.save();
+            return res.status(200).json({ order: newOrder, checkoutUrl: null })
         }
 
         //COD
@@ -162,7 +177,7 @@ export const getorders = async (req, res, next) => {
 
         //FETCH MATCHING ORDERS, NEWEST FIRST
         const orders = await Order.find(filter)
-        .sort({placedAt: -1}).lean();
+        .sort({createdAt: -1}).lean();
     
 
     //compute aggregate counts
@@ -178,7 +193,7 @@ export const getorders = async (req, res, next) => {
         res.json({
             counts: {
                 totalOrders: counts.totalOrders,
-                pending: count.pending || 0,
+                pending: counts.pending || 0,
                 processing: counts.Processing || 0,
                 shipped: counts.Shipped || 0,
                 delivered: counts.Delivered || 0,
@@ -215,7 +230,7 @@ export const getUserOrders = async (req, res, next) => {
         const orders = await Order
         .find({ user: req.user._id })
         .populate('books.book')
-        .sort({ createdAT: -1 });
+        .sort({ createdAt: -1 });
         res.status(200).json(orders);
     }
 
@@ -229,7 +244,7 @@ export const getUserOrders = async (req, res, next) => {
 
 export const updateOrder = async (req, res, next) => {
     try {
-        const allowed = ['orderStatus', 'paymentStatus', 'deliveryDate', 'notes'];
+        const allowed = ['orderStatus', 'paymentStatus', 'deliveryDate', 'notes', 'trackingId'];
         const updateData = {};
         allowed.forEach(field => {
         if (req.body[field] !== undefined) updateData[field] = req.body[field];

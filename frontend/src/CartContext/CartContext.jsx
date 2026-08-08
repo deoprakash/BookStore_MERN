@@ -27,10 +27,11 @@ const cartReducer = (state, action) => {
             )
             if(exists) {
                 return {
-                    ...state, 
-                    items: state.items.map((i) => i.id === itemToAdd.id && (i.source === itemToAdd.source || (i.source && itemToAdd.source))
-                    ? {...i, quantity: i.quantity + itemToAdd.quantity}
-                    : i,
+                    ...state,
+                    items: state.items.map((i) =>
+                        i.id === itemToAdd.id && (i.source === itemToAdd.source || (!i.source && !itemToAdd.source))
+                            ? { ...i, quantity: i.quantity + itemToAdd.quantity }
+                            : i
                     ),
                 }
             }
@@ -39,30 +40,32 @@ const cartReducer = (state, action) => {
         case "INCREMENT":
             return {
                 ...state,
-                items: state.items.map((i) => i.id === action.payload.id && (i.source === action.payload.source || (!i.source === !action.payload.source))
-            ?{...i, quantity: i.quantity + 1}
-            : i,
-            ),
+                items: state.items.map((i) =>
+                    i.id === action.payload.id && (i.source === action.payload.source || (!i.source && !action.payload.source))
+                        ? { ...i, quantity: i.quantity + 1 }
+                        : i
+                ),
             }
         case "DECREMENT":
             return {
                 ...state,
-                items: state.items.map((i) => i.id === action.payload.id && (i.source === action.payload.source || (!i.source === !action.payload.source))
-            ?{...i, quantity: i.quantity - 1}
-            : i,
-            )
-            .filter((i) => i.quantity > 0)
-        }
+                items: state.items.map((i) =>
+                    i.id === action.payload.id && (i.source === action.payload.source || (!i.source && !action.payload.source))
+                        ? { ...i, quantity: i.quantity - 1 }
+                        : i
+                ).filter((i) => i.quantity > 0),
+            }
         case "REMOVE_ITEM":
             return {
                 ...state,
                 items: state.items.filter((i) => !(
-                    i.id === action.payload.id && 
-                    (i.source === action.payload.source || (!i.source === !action.payload.source))
-                ),
-            ),
-        }
-        default: 
+                    i.id === action.payload.id &&
+                    (i.source === action.payload.source || (!i.source && !action.payload.source))
+                )),
+            }
+        case "CLEAR_CART":
+            return { items: [] }
+        default:
         return state
     }      
 }

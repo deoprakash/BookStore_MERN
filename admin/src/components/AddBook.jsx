@@ -13,6 +13,7 @@ const initialFormData = {
   category: "Fiction",
   description: "",
   preview: "",
+  stockStatus: "In Stock"
 };
 
 
@@ -21,8 +22,10 @@ const categories = [
   "Biography", "Self-Help", "Thriller"
 ];
 
+const stockStatuses = ["In Stock", "Out of Stock", "Coming Soon"];
 
-  const API_BASE = 'http://localhost:4000'
+
+  const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
 
 const AddBook = () => {
 
@@ -82,6 +85,16 @@ const AddBook = () => {
   const handleStarClick = (rating) => {
     setFormData(prev => ({...prev, rating}))
   }
+
+  const handleReset = () => {
+    setFormData(initialFormData);
+    setHoverRating(0);
+    setMessage({ type: null, text: null });
+  
+    // Clear the file input
+    const fileInput = document.querySelector('input[type="file"]');
+    if (fileInput) fileInput.value = "";
+  };
 
 
   return (
@@ -150,6 +163,17 @@ const AddBook = () => {
             </div>
 
             <div className={styles.formItem}>
+                <label className={styles.formLabel}>Stock Status</label>
+                <select name="stockStatus" value={formData.stockStatus} onChange={handleChange} className={styles.formInput}>
+                  {stockStatuses.map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+            </div>
+
+            <div className={styles.formItem}>
               <label className={styles.formLabel}>Cover Image</label>
               <input type='file'
                 name="image"
@@ -182,14 +206,24 @@ const AddBook = () => {
             <p className={`text-${message.type === 'success' ? 'green' : 'red'}-500`}>{message.text}</p>
           )} 
           
-        <div className={styles.submitContainer}>
-          <button 
-          disabled={loading} 
-          type='submit' className={styles.submitButton}>
-            <BookPlus className=' w-5 h-5' />
-            <span>Add Book to collection</span>
-          </button>
-        </div>
+          <div className={`${styles.submitContainer} flex gap-4`}>
+            <button
+              disabled={loading}
+              type="submit"
+              className={styles.submitButton}
+            >
+              <BookPlus className="w-5 h-5" />
+              <span>{loading ? "Adding..." : "Add Book to Collection"}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleReset}
+              className="px-6 py-3 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium transition"
+            >
+              Reset
+            </button>
+          </div>
         </form>
       </div>
     </div>

@@ -212,7 +212,7 @@ export const styles = {
       `${isActive ? 'text-white font-medium' : 'text-gray-300 group-hover:text-white'}`,
     divider: "h-px bg-[#2B5876]/90 my-6",
     footer: (isCollapsed) => `mt-auto pt-4 ${isCollapsed ? 'text-center' : ''}`,
-    footerText: "text-xs text-indigo-300"
+    footerText: "text-xs text-indigo-300 font-['Playfair_Display']"
   }, 
     mobileNav: {
     container: "fixed bottom-0 left-0 right-0 bg-gradient-to-r from-[#2B5876] to-[#43C6AC] z-50 shadow-lg",

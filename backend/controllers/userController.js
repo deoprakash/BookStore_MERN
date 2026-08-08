@@ -14,6 +14,8 @@ const createToken = (userId) =>
 // REGISTER FUNCTION
 
 export async function registerUser(req, res) {
+
+    console.log("Register request:", req.body);
     const {username, email, password} = req.body;
     
     if (!username || !email || !password){

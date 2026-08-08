@@ -6,6 +6,7 @@ import { useCart } from '../CartContext/CartContext'
 import { Link } from 'react-router-dom'
 import { BookOpen, Trash, Minus, Plus } from 'lucide-react'
 import { ArrowRight } from 'lucide-react'
+import EmptyCartImage from '../assets/BannerHome.png'
 
 const Cart = () => {
 
@@ -27,46 +28,11 @@ const Cart = () => {
      const desc = (item) => dispatch ({ type: "DECREMENT", payload: {id: item.id, source: item.source}})
      const remove = (item) => dispatch({ type: "REMOVE_ITEM", payload: {id: item.id, source: item.source}})
      
-     const handleCheckout = async () => {
+     const handleCheckout = () => {
            const token = localStorage.getItem('authToken')
            if(!token) return navigate('/login')
            if(cart.items.length === 0) return alert('Your cart is empty')
-
-           const payload = {
-                customer: {
-                     name: localStorage.getItem('userName') || 'Guest',
-                     email: localStorage.getItem('userEmail') || '',
-                     phone: '',
-                     address: { street: '', city: '', state: '', zip: '' }
-                },
-                items: cart.items.map(i => ({ id: i.id, name: i.title, price: i.price, quantity: i.quantity })),
-                paymentMethod: 'Online Payment'
-           }
-
-           try {
-                const res = await fetch('http://localhost:4000/api/order', {
-                     method: 'POST',
-                     headers: {
-                          'Content-Type': 'application/json',
-                          'Authorization': `Bearer ${token}`
-                     },
-                     body: JSON.stringify(payload)
-                })
-
-                const data = await res.json()
-                if(!res.ok) return alert(data.message || 'Checkout failed')
-
-                if(data.checkoutUrl) {
-                     window.location.href = data.checkoutUrl
-                } else {
-                     alert('Order placed successfully')
-                     navigate('/orders')
-                }
-           }
-           catch (err) {
-                console.error('Checkout error', err)
-                alert('Checkout error')
-           }
+           navigate('/checkout')
      }
 
   return (
@@ -84,8 +50,8 @@ const Cart = () => {
 
                {cart.items.length === 0 ? (
                     <div className={styles.emptyCard}>
-                         <div className={styles.emptyIconWrapper}>
-                              <ShoppingBag className={styles.emptyIcon} />
+                         <div className="w-full max-w-sm mx-auto mb-6">
+                              <img src={EmptyCartImage} alt="Empty Cart" className="w-full h-auto object-cover rounded-xl shadow-sm opacity-90" />
                          </div>
                          <h2 className={styles.emptyTitle}>Your cart feels empty</h2>
                          <p className={styles.emptyDescription}>

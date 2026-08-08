@@ -1,11 +1,42 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import aboutStyles from '../assets/dummystyles'
-import { apstats, apteamMembers } from '../assets/dummydata'
+import { apstats } from '../assets/dummydata'
 import AboutUsImage from '../assets/AboutUsImage.png'
-import { Facebook, Instagram, Mail } from 'lucide-react'
+import { Mail, Linkedin } from 'lucide-react'
+
+const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
+
+const MemberAvatar = ({ photo, name }) => {
+  const initials = name?.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || '?';
+  if (photo) {
+    return <img src={`${API_BASE}${photo}`} alt={name} className={aboutStyles.teamImage} />;
+  }
+  return (
+    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#43C6AC] to-[#2B5876] text-white text-4xl font-bold">
+      {initials}
+    </div>
+  );
+};
 
 const About = () => {
-  const [hoveredMember, setHoveredMember] = useState(null)
+  const [hoveredMember, setHoveredMember] = useState(null);
+  const [teamMembers, setTeamMembers] = useState([]);
+  const [loadingTeam, setLoadingTeam] = useState(true);
+
+  useEffect(() => {
+    const fetchTeam = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/team?isActive=true`);
+        const data = await res.json();
+        setTeamMembers(data);
+      } catch (err) {
+        console.error('Failed to load team:', err);
+      } finally {
+        setLoadingTeam(false);
+      }
+    };
+    fetchTeam();
+  }, []);
 
   return (
     <div className={aboutStyles.container}>
@@ -88,40 +119,61 @@ const About = () => {
                   <div className={aboutStyles.sectionUnderline} />
                 </div>
 
-                <div className=' grid grid-cols-1 md:grid-cols-3 gap-8'>
-                  {apteamMembers.map((member) => (
-                    <div 
-                      className={aboutStyles.teamCard} 
-                      key={member.id}
-                      onMouseEnter={() => setHoveredMember(member.id)}
-                      onMouseLeave={() => setHoveredMember(null)}
-                    >
-                      <div className={aboutStyles.teamImageWrapper}>
-                        <img src={member.image} alt={member.name} className={aboutStyles.teamImage} />
-                        <div className={aboutStyles.teamOverlay} />
-                        
-                        {/* About overlay that appears on hover */}
-                        {hoveredMember === member.id && (
-                          <div className="absolute inset-0 bg-white/40 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-300">
-                            <p className="text-gray-900 text-sm text-center leading-relaxed font-semibold drop-shadow-sm">
-                              {member.about}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                      <h3 className={aboutStyles.teamName}>{member.name}</h3>
-                      <p className={aboutStyles.teamPosition}>{member.position}</p>
-
-                      <div className=' flex justify-center space-x-4'>
-                        {[Mail, Instagram].map((Icon, i) => (
-                          <button key={i} className={aboutStyles.socialIcon}>
-                            <Icon className=' h-6 w-6' />
-                          </button>
-                        ))}
-                      </div>
+                {loadingTeam ? (
+                  <div className="flex justify-center items-center py-16">
+                    <div className="flex gap-2">
+                      {[0, 1, 2].map(i => (
+                        <div
+                          key={i}
+                          className="w-3 h-3 rounded-full bg-[#43C6AC] animate-bounce"
+                          style={{ animationDelay: `${i * 0.15}s` }}
+                        />
+                      ))}
                     </div>
-                  ))}
-                </div>                
+                  </div>
+                ) : teamMembers.length === 0 ? (
+                  <p className="text-center text-gray-400 py-12">No team members to display.</p>
+                ) : (
+                  <div className=' grid grid-cols-1 md:grid-cols-3 gap-8'>
+                    {teamMembers.map((member) => (
+                      <div 
+                        className={aboutStyles.teamCard} 
+                        key={member._id}
+                        onMouseEnter={() => setHoveredMember(member._id)}
+                        onMouseLeave={() => setHoveredMember(null)}
+                      >
+                        <div className={aboutStyles.teamImageWrapper}>
+                          <MemberAvatar photo={member.photo} name={member.name} />
+                          <div className={aboutStyles.teamOverlay} />
+                          
+                          {/* Bio overlay on hover */}
+                          {hoveredMember === member._id && (
+                            <div className="absolute inset-0 bg-white/40 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-300">
+                              <p className="text-gray-900 text-sm text-center leading-relaxed font-semibold drop-shadow-sm">
+                                {member.bio || `${member.role} at BookHub.`}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                        <h3 className={aboutStyles.teamName}>{member.name}</h3>
+                        <p className={aboutStyles.teamPosition}>{member.role}</p>
+
+                        <div className=' flex justify-center space-x-4'>
+                          {member.email && (
+                            <a href={`mailto:${member.email}`} className={aboutStyles.socialIcon}>
+                              <Mail className=' h-6 w-6' />
+                            </a>
+                          )}
+                          {member.linkedin && (
+                            <a href={member.linkedin} target="_blank" rel="noreferrer" className={aboutStyles.socialIcon}>
+                              <Linkedin className=' h-6 w-6' />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
             </div>
           </section>
     </div>

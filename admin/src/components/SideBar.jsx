@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { styles } from '../assets/dummyStyles.js';
 import { Link, useLocation } from 'react-router-dom';
-import logo from '../assets/vp_logo.png'
-import { BookPlus, BookOpen, ShoppingCart, ChevronRight, ChevronLeft } from 'lucide-react';
+import logo from '../assets/BookLogo.png'
+import { BookPlus, BookOpen, ShoppingCart, Users, ChevronRight, ChevronLeft, UserPlus, UserCircle, LogOut } from 'lucide-react';
 
 const SideBar = () => {
 
@@ -25,6 +25,9 @@ const SideBar = () => {
         {path: '/', icon: BookPlus, label: 'Add Books' },
         {path:'/list-books',  icon: BookOpen, label: 'List Books'},
         {path: '/orders', icon: ShoppingCart, label: 'Orders'},
+        {path: '/team', icon: Users, label: 'Team'},
+        {path: '/add-author', icon: UserPlus, label: 'Add Author'},
+        {path: '/list-authors', icon: UserCircle, label: 'List Authors'},
     ];
 
     const toggleCollapse = () => {
@@ -64,7 +67,7 @@ const SideBar = () => {
                             <img src={logo} alt="Logo" className={styles.sidebar.logoImage}/>
                         </div>
                         <div>
-                            <h1 className={styles.sidebar.title}> Vedic Publication</h1>
+                            <h1 className={styles.sidebar.title}>BookHub</h1>
                         </div>
                     </div>  
                 )}
@@ -102,9 +105,16 @@ const SideBar = () => {
             <div className={styles.sidebar.divider} />
             
             <div className={styles.sidebar.footer(isCollapsed)}>
+                <button 
+                    onClick={() => { localStorage.removeItem('adminToken'); window.location.reload(); }}
+                    className={`flex items-center w-full gap-3 p-2 rounded-lg text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors ${isCollapsed ? 'justify-center' : ''}`}
+                >
+                    <LogOut className="w-5 h-5" />
+                    {!isCollapsed && <span className="font-medium text-sm">Logout</span>}
+                </button>
                 {!isCollapsed && (
-                    <p className={styles.sidebar.footerText}>
-                        &copy; 2026 Vedic Publication
+                    <p className={`${styles.sidebar.footerText} mt-4`}>
+                        &copy; 2026 BookHub
                     </p>
                 )}
 

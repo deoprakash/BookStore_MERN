@@ -33,7 +33,7 @@ const orderSchema = new mongoose.Schema({
 
     paymentMethod: {
         type: String,
-        enum: ["Online Payment", "Cash on Delievery"],
+        enum: ["Online Payment", "Cash on Delivery", "QR Payment"],
         required: true,
     },
 
@@ -45,25 +45,26 @@ const orderSchema = new mongoose.Schema({
 
     sessionId: {type: String },
     paymentIntentId: {type: String},
+    transactionId: {type: String},
 
     notes: { type: String },
-    delieveryDate: { type: String },
+    deliveryDate: { type: String },
 
     orderStatus: {
         type: String,
-        enum: ["Pending", "Processing", "Shipped", "Delievered", "Cancelled"],
+        enum: ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"],
         default: "Pending",
     },
 
-    delieveredAt: { type: Date },
-    placedAt: { type: Date, default: Date.now() }, 
+    deliveredAt: { type: Date },
+    placedAt: { type: Date, default: Date.now }, 
+    trackingId: { type: String },
 }, {timestamps: true });
 
-orderSchema.pre('validate', function (next) {
+orderSchema.pre('validate', async function () {
     if (this.totalAmount != null && this.taxAmount != null) {
-        this.finalAmount = this.totalAmount + (this.shippingCharges || 0);
+        this.finalAmount = this.totalAmount + (this.taxAmount || 0) + (this.shippingCharges || 0);
     }
-    next();
 })
 
 const Order = mongoose.models.Order || mongoose.model('Order', orderSchema);

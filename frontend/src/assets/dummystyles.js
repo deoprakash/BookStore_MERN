@@ -3,15 +3,15 @@
 // Updated navbarStyles
 export const navbarStyles = {
   nav: (scrolled) =>
-    `fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-500 ${
-      scrolled ? "shadow-md py-2" : "py-4"
+    `fixed top-0 left-0 right-0 z-50 transition-all duration-500 border border-white/20 ${
+      scrolled ? "bg-white/20 backdrop-blur-md shadow-lg py-2" : "bg-white/85 backdrop-blur-md shadow-sm py-4"
     }`,
 
   container: "container mx-auto px-4 md:px-4 md:text-xs",
   logoContainer: "flex items-center",
   logoGradient: "absolute -inset-3 rounded-full opacity-0 blur-xl group-hover:opacity-30 transition-opacity bg-gradient-to-r from-[#43C6AC] to-[#F8FFAE]",
   logoImage: "h-8 w-8 rounded-full z-10",
-  logoText: "text-xl font-bold bg-gradient-to-r from-[#440732] to-[#440732] bg-clip-text text-transparent",
+  logoText: "text-xl font-['Playfair_Display'] font-bold bg-gradient-to-r from-[#440732] to-[#440732] bg-clip-text text-transparent",
   logoUnderline: "h-0.5 w-0 bg-gradient-to-r from-[#440732] to-[#E3F6F0] group-hover:w-full transition-all duration-500",
 
   desktopNavWrapper: "hidden md:flex items-center space-x-1",
@@ -25,10 +25,9 @@ export const navbarStyles = {
     `relative h-5 w-5 ${isActive ? "text-white" : "text-gray-600 group-hover:text-white"} transition-colors duration-300 z-10`,
 
   navText: (isActive, color) =>
-    `ml-2 ${
-      isActive
-        ? `bg-gradient-to-r ${color} bg-clip-text text-transparent font-medium`
-        : "text-gray-600 group-hover:text-gray-900"
+    `ml-2 ${isActive
+      ? `bg-gradient-to-r ${color} bg-clip-text text-transparent font-medium`
+      : "text-gray-600 group-hover:text-gray-900"
     }`,
 
   navUnderline: (color) =>
@@ -50,11 +49,10 @@ export const navbarStyles = {
   menuGradient: "absolute -inset-2 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full opacity-0 blur-md group-hover:opacity-30 transition-opacity duration-500",
   menuIcon: "relative h-6 w-6 text-gray-600 z-10",
 
-  mobileMenu: "md:hidden absolute top-full left-0 right-0 bg-white shadow-lg z-40",
+  mobileMenu: "md:hidden absolute top-[calc(100%+0.5rem)] left-0 right-0 bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl z-40 border border-gray-100 overflow-hidden",
   mobileContainer: "container mx-auto px-4 py-4",
   mobileNavItem: (isActive, color) =>
-    `flex items-center px-4 py-3 rounded-lg ${
-      isActive ? `bg-gradient-to-r ${color}/10` : "hover:bg-gray-100"
+    `flex items-center px-4 py-3 rounded-lg ${isActive ? `bg-gradient-to-r ${color}/10` : "hover:bg-gray-100"
     } transition-colors`,
 
   mobileNavIcon: (isActive, color) =>
@@ -66,22 +64,22 @@ export const navbarStyles = {
   mobileIconRow: "flex justify-between items-center mt-4",
   mobileCartBadge:
     "absolute top-0 right-0 -mt-1 -mr-1 w-5 h-5 flex items-center justify-center text-[10px] font-bold text-white bg-gradient-to-r from-amber-500 to-orange-600 rounded-full",
-    
-      // Update these functions:
+
+  // Update these functions:
   mobileNavIcon: (isActive, color) => {
     const baseColor = color.includes('violet') ? 'violet' : color.split('-')[1];
     return `h-5 w-5 ${isActive ? `text-${baseColor}-500` : "text-gray-600"}`;
   },
-  
+
   mobileNavText: (isActive, color) => {
     const baseColor = color.includes('violet') ? 'violet' : color.split('-')[1];
     return `ml-3 ${isActive ? `text-${baseColor}-600 font-medium` : "text-gray-600"}`;
   },
-  
+
   // Add this new helper:
-  getBaseColor: (color) => 
+  getBaseColor: (color) =>
     color.includes('violet') ? 'violet' : color.split('-')[1],
-  
+
 };
 
 //banner
@@ -145,7 +143,7 @@ export const scrollText =
 
 
 
-  // assets/dummy/dummystyles.js
+// assets/dummy/dummystyles.js
 
 export const ourBestSellersStyles = {
   section: "py-12 md:py-16 bg-gray-50",
@@ -201,8 +199,8 @@ export const homeBooksStyles = {
   headingLine: "h-1 w-20 bg-gradient-to-r from-[#43C6AC] to-[#F8FFAE] rounded-full mx-auto",
   grid: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8",
   bookCard: "group relative",
-  imageWrapper: "relative h-72 overflow-hidden rounded-xl border-4 border-[#43C6AC]/20 mb-4",
-  image: "w-full h-full object-cover transition-transform duration-500 group-hover:scale-105",
+  imageWrapper: "relative h-72 overflow-hidden rounded-xl border-4 border-[#43C6AC]/20 mb-4 bg-white flex items-center justify-center",
+  image: "w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105",
   rating: "absolute top-2 right-2 bg-white/90 px-3 py-1 rounded-full flex items-center",
   title: "text-xl font-bold text-gray-900 mb-2",
   author: "text-gray-600 mb-3",
@@ -273,7 +271,7 @@ export const footerStyles = {
   logoBlock: "space-y-4",
   logoLink: "inline-flex items-center gap-2",
   logoImg: "h-9 w-9 rounded-full",
-  logoText: "text-2xl font-bold bg-gradient-to-r from-[#43C6AC] to-[#2B5876] bg-clip-text text-transparent",
+  logoText: "text-2xl font-['Playfair_Display'] font-bold bg-gradient-to-r from-[#43C6AC] to-[#2B5876] bg-clip-text text-transparent",
   aboutText: "text-gray-600 text-sm leading-relaxed",
   socialWrap: "flex gap-3",
   socialButton: "flex items-center justify-center w-9 h-9 rounded-full bg-white border border-[#43C6AC]/30 hover:border-[#43C6AC] hover:bg-[#F8FFAE]/20 transition-all duration-300",
@@ -304,8 +302,7 @@ export const footerStyles = {
 export const containerStyle = "min-h-screen pt-24 pb-16 bg-white"
 
 export const toastStyle = (type) =>
-  `fixed top-6 right-6 z-50 flex items-center p-4 rounded-lg shadow-md ${
-    type === "success" ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"
+  `fixed top-6 right-6 z-50 flex items-center p-4 rounded-lg shadow-md ${type === "success" ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"
   }`
 
 export const headerStyle = "text-center mb-12"
@@ -369,12 +366,12 @@ const aboutStyles = {
   teamSection: "py-20 bg-gradient-to-br from-[#43C6AC]/5 to-[#F8FFAE]/5",
   sectionTitle: "text-5xl font-black bg-gradient-to-r from-[#43C6AC] to-[#2B5876] bg-clip-text text-transparent",
   sectionUnderline: "mt-6 h-1 w-24 mx-auto bg-gradient-to-r from-[#43C6AC] to-[#F8FFAE] rounded-full",
-  teamCard: "group relative bg-white/95 backdrop-blur-lg rounded-[2rem] p-6 shadow-2xl border border-[#43C6AC]/10 transition-transform hover:-translate-y-3",
-  teamImageWrapper: "relative overflow-hidden rounded-2xl mb-6",
-  teamImage: "w-full h-80 object-cover transform transition duration-500 group-hover:scale-110",
-  teamOverlay: "absolute inset-0 bg-gradient-to-t from-[#43C6AC]/40 to-transparent",
-  teamName: "text-2xl font-bold text-gray-900 mb-1",
-  teamPosition: "text-lg text-[#43C6AC] font-medium mb-6",
+  teamCard: "group relative bg-white/95 backdrop-blur-lg rounded-[2rem] p-5 shadow-2xl border border-[#43C6AC]/10 transition-transform hover:-translate-y-3",
+  teamImageWrapper: "relative overflow-hidden rounded-2xl mb-5",
+  teamImage: "w-full h-96 object-cover object-top transform transition duration-500 group-hover:scale-105",
+  teamOverlay: "absolute inset-0 bg-gradient-to-t from-[#43C6AC]/30 via-transparent to-transparent",
+  teamName: "text-xl font-bold text-gray-900 mb-0.5",
+  teamPosition: "text-base text-[#43C6AC] font-medium mb-4",
   socialIcon: "p-2 rounded-full bg-gradient-to-r from-[#43C6AC] to-[#F8FFAE] text-white hover:shadow-lg transition-all hover:scale-110",
 
   branchSection: "py-20",
@@ -408,8 +405,8 @@ export const booksPageStyles = {
   resultText: "text-gray-600 text-sm md:text-base text-center md:text-left mt-2 md:mt-0",
   booksGrid: "grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6",
   bookCard: "group bg-white/90 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1",
-  imageWrapper: "relative aspect-square mb-4 md:mb-6 overflow-hidden rounded-lg md:rounded-xl",
-  imageStyle: "w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300",
+  imageWrapper: "relative aspect-square mb-4 md:mb-6 overflow-hidden rounded-lg md:rounded-xl bg-white flex items-center justify-center",
+  imageStyle: "w-full h-full object-contain p-2 transform group-hover:scale-105 transition-transform duration-300",
   title: "text-lg md:text-xl font-semibold text-gray-800 mb-1 md:mb-2",
   author: "text-sm text-gray-500 mb-2 md:mb-3",
   ratingWrapper: "flex items-center gap-1 text-yellow-400 text-sm mb-2 md:mb-3",
@@ -424,8 +421,7 @@ export const booksPageStyles = {
 export const contactPageStyles = {
   containerStyle: "py-16 pt-24 bg-gray-50 min-h-screen relative",
   toastStyle: (type) =>
-    `fixed top-6 left-1/2 transform -translate-x-1/2 z-50 px-4 py-3 rounded-md text-white flex items-center shadow-lg ${
-      type === "success" ? "bg-green-500" : "bg-red-500"
+    `fixed top-6 left-1/2 transform -translate-x-1/2 z-50 px-4 py-3 rounded-md text-white flex items-center shadow-lg ${type === "success" ? "bg-green-500" : "bg-red-500"
     }`,
   headerStyle: "text-center mb-12",
   contactInfoCardStyle: "bg-white p-6 rounded-lg shadow-lg",
@@ -521,8 +517,7 @@ export const Signup = {
 export const loginStyles = {
   container: "min-h-screen flex items-center justify-center bg-gray-50 p-4",
   toast: (type) =>
-    `fixed top-4 right-4 p-3 rounded-md ${
-      type === "success" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+    `fixed top-4 right-4 p-3 rounded-md ${type === "success" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
     }`,
   card: "w-full max-w-md bg-white rounded-lg shadow-sm p-8",
   backLink: "flex items-center text-gray-600 mb-8",
@@ -550,4 +545,13 @@ export const loginStyles = {
     "w-full text-gray-600 py-3 rounded-lg border hover:bg-gray-50 transition-colors",
 }
 
-
+export const getStockBadgeStyle = (status) => {
+  switch (status) {
+    case 'Out of Stock':
+      return "absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded-full text-[10px] md:text-xs font-bold shadow-md z-10";
+    case 'Coming Soon':
+      return "absolute top-2 left-2 bg-amber-500 text-white px-2 py-1 rounded-full text-[10px] md:text-xs font-bold shadow-md z-10";
+    default:
+      return "absolute top-2 left-2 bg-[#43C6AC] text-white px-2 py-1 rounded-full text-[10px] md:text-xs font-bold shadow-md z-10";
+  }
+};

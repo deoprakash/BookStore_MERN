@@ -1,7 +1,7 @@
 import React from 'react'
 import { footerStyles as styles } from '../assets/dummystyles'
 import { Link } from 'react-router-dom'
-import logo from '../assets/vp_logo.png'
+import logo from '../assets/BookLogo.png'
 import { socialLinks, quickLinks } from '../assets/dummydata'
 import { ArrowRight, Mail, MapPin, Phone } from 'lucide-react'
 
@@ -14,7 +14,7 @@ const Footer = () => {
           <div className={styles.logoBlock}>
             <Link to='/' className={styles.logoLink}>
               <img src={logo} alt='logo' className={styles.logoImg} />
-              <h1 className={styles.logoText}>Vedic Publication</h1>
+              <h1 className={styles.logoText}>BookHub</h1>
             </Link>
             <p className={styles.aboutText}>
               Your gateway to literary adventures. Discover, explore & immerse
@@ -93,7 +93,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className={styles.copyrightWrap}>
           <p className={styles.copyrightText}>
-            &copy; {new Date().getFullYear()} Vedic Publication. All rights
+            &copy; {new Date().getFullYear()} BookHub. All rights
             reserved.
           </p>
           <a
