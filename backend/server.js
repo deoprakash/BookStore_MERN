@@ -23,13 +23,32 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-// MIDDLEWARE
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://book-store-mern-cyan.vercel.app/',
+];
+
 app.use(cors({
-    origin: true,
-    credentials: true,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+
+// // MIDDLEWARE
+// app.use(cors({
+//     origin: true,
+//     credentials: true,
+// }));
+// app.use(express.json());
+// app.use(express.urlencoded({extended: true}));
 
 
 
@@ -48,10 +67,6 @@ app.use('/api/order', orderRouter);
 app.use('/api/team', teamRouter);
 app.use('/api/author', authorRouter);
 app.use('/api/admin', adminRouter);
-
-
-
-
 
 app.get('/', (req, res) => {
     res.send('API WORKING')
