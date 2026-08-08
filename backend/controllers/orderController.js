@@ -1,9 +1,6 @@
 import Order from "../models/orderModel.js";
 import Book from "../models/bookModel.js";
-import Stripe from "stripe";
 import { v4 as uuidv4 } from "uuid";
-
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 // CREATE A ORDER
 
@@ -71,37 +68,6 @@ export const createOrder = async (req, res, next) => {
             deliveryDate,
         };
 
-        //Online Payment
-
-        if(normalizedPM === 'Online Payment') {
-            const session = await stripe.checkout.sessions.create({
-                payment_method_types: ['card'],
-                mode: 'payment',
-                line_items: items.map(o => ({
-                    price_data: {
-                        currency: 'INR',
-                        product_data: {name: o.name},
-                        unit_amount: Math.round(o.price * 100),
-                    },
-                    quantity: o.quantity,
-                })),
-                customer_email : customer.email,
-                success_url: `${process.env.FRONTEND_URL}/orders/verify?session_id={CHECKOUT_SESSION_ID}`, 
-                cancel_url: `${process.env.FRONTEND_URL}/checkout?payment_status=cancel`, 
-                metadata: {orderId},
-            });
-
-            const newOrder = new Order({
-                ...baseOrderData,
-                paymentStatus: 'Unpaid',
-                sessionId: session.id,
-                paymentIntentId: session.payment_intent,
-            });
-
-            await newOrder.save();
-            return res.status(200).json({ order: newOrder, checkoutUrl: session.url })
-        }
-
         //QR Payment
         if(normalizedPM === 'QR Payment') {
             if (!transactionId) {
@@ -126,33 +92,6 @@ export const createOrder = async (req, res, next) => {
         next(err)
     }
 };
-
-//Confirm Stripe Payment
-
-export const confirmPayment = async (req, res, next) => {
-    try {
-        const { session_id } = req.query;
-        if(!session_id) {
-            return res.status(400).json({
-                message: 'session_id required'
-            });
-        }
-            const session = await stripe.checkout.sessions.retrieve(session_id);
-            if(session.payment_status !== 'paid') {
-                return res.status(400).json({ message: 'Payment not completed.'})
-            }
-
-            const order = await Order.findOneAndUpdate({ sessionId: session_id},
-            {paymentStatus: 'Paid'},{new: true});
-            if(!order) {
-                return res.status(404).json({ message: 'Order not found.' });
-            };
-            res.json(order);
-        }
-    catch (err) {
-        next(err);
-    }
-}
 
 // GET ALL ORDERS
 

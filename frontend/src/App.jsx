@@ -8,7 +8,6 @@ import ContactPage from "./pages/ContactPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import PaymentPage from "./pages/PaymentPage";
 import OrdersPage from "./pages/OrdersPage";
-import OrderVerifyPage from "./pages/OrderVerifyPage";
 import PublishPage from "./pages/PublishPage";
 import AuthorsPage from "./pages/AuthorsPage";
 import AuthorDetailsPage from "./pages/AuthorDetailsPage";
@@ -25,7 +24,6 @@ const App = () => {
       <Route path='/payment' element={<PaymentPage />} />
       <Route path='/orders' element={<OrdersPage />} />
       <Route path='/order/:id' element={<OrderDetailsPage />} />
-      <Route path='/orders/verify' element={<OrderVerifyPage />} />
       <Route path='/about' element={<AboutPage />} />
       <Route path='/books' element={<BookPage />} />
       <Route path='/contact' element={<ContactPage />} />

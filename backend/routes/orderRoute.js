@@ -1,6 +1,6 @@
 import express from "express";
 import authMiddleware from "../middleware/auth.js";
-import { confirmPayment, createOrder, deleteOrder, getorderById, getorders, getUserOrders, updateOrder } from "../controllers/orderController.js";
+import { createOrder, deleteOrder, getorderById, getorders, getUserOrders, updateOrder } from "../controllers/orderController.js";
 import adminAuth from "../middleware/adminAuth.js";
 
 
@@ -9,7 +9,6 @@ const orderRouter = express.Router();
 
 // protected routes
 orderRouter.post('/', authMiddleware, createOrder);
-orderRouter.get('/confirm', authMiddleware, confirmPayment);
 
 
 //Public routes
