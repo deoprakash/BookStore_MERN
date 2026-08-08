@@ -25,21 +25,7 @@ const __dirname = path.dirname(__filename);
 
 // MIDDLEWARE
 app.use(cors({
-    origin: (origin, callback) => {
-        const allowedOrigins = [
-            'http://localhost:5173', 
-            'http://localhost:5174', 
-            process.env.FRONTEND_URL, 
-            process.env.ADMIN_URL
-        ].filter(Boolean); // Filter out undefined values
-        
-        if(!origin || allowedOrigins.includes(origin)) {
-            callback(null, true)
-        }
-        else{ 
-            callback(new Error('Not allowed by CORS'))
-        }
-    },
+    origin: true,
     credentials: true,
 }));
 app.use(express.json());
