@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Lock, Mail, Loader2 } from 'lucide-react';
 
-const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
+const API_BASE = import.meta.env.VITE_BACKEND_URL ? (import.meta.env.VITE_BACKEND_URL.startsWith('http') ? import.meta.env.VITE_BACKEND_URL : `https://${import.meta.env.VITE_BACKEND_URL}`) : 'http://localhost:4000';
 
 const Login = ({ setToken }) => {
     const [email, setEmail] = useState('');

@@ -5,7 +5,7 @@ import Footer from '../components/Footer'
 import { Package, Clock, Truck, CheckCircle, AlertCircle, RefreshCw } from 'lucide-react'
 import EmptyOrdersImage from '../assets/Book8.png'
 
-const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
+const API_BASE = import.meta.env.VITE_BACKEND_URL ? (import.meta.env.VITE_BACKEND_URL.startsWith('http') ? import.meta.env.VITE_BACKEND_URL : `https://${import.meta.env.VITE_BACKEND_URL}`) : 'http://localhost:4000';
 
 const statusConfig = {
   Pending: { icon: Clock, color: 'bg-yellow-100 text-yellow-800' },

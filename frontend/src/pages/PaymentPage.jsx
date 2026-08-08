@@ -7,7 +7,7 @@ import { styles } from '../assets/dummystyles'
 import { CreditCard, CheckCircle, Loader } from 'lucide-react'
 import qrCodeImg from '../assets/qr_code.png'
 
-const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
+const API_BASE = import.meta.env.VITE_BACKEND_URL ? (import.meta.env.VITE_BACKEND_URL.startsWith('http') ? import.meta.env.VITE_BACKEND_URL : `https://${import.meta.env.VITE_BACKEND_URL}`) : 'http://localhost:4000';
 
 const PaymentPage = () => {
   const { cart, dispatch } = useCart()

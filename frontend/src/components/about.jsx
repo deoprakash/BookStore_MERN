@@ -4,7 +4,7 @@ import { apstats } from '../assets/dummydata'
 import AboutUsImage from '../assets/AboutUsImage.png'
 import { Mail, Linkedin } from 'lucide-react'
 
-const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
+const API_BASE = import.meta.env.VITE_BACKEND_URL ? (import.meta.env.VITE_BACKEND_URL.startsWith('http') ? import.meta.env.VITE_BACKEND_URL : `https://${import.meta.env.VITE_BACKEND_URL}`) : 'http://localhost:4000';
 
 const MemberAvatar = ({ photo, name }) => {
   const initials = name?.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || '?';

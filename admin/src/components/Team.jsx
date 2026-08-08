@@ -6,7 +6,7 @@ import {
   ChevronUp, ChevronDown, Upload, AlertCircle, ArrowUp, ArrowDown, Save
 } from 'lucide-react';
 
-const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
+const API_BASE = import.meta.env.VITE_BACKEND_URL ? (import.meta.env.VITE_BACKEND_URL.startsWith('http') ? import.meta.env.VITE_BACKEND_URL : `https://${import.meta.env.VITE_BACKEND_URL}`) : 'http://localhost:4000';
 
 const DEPARTMENTS = ["Editorial", "Design", "Marketing", "Operations", "Technology", "Management", "Finance", "Sales"];
 

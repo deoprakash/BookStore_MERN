@@ -29,7 +29,7 @@ const Login = () => {
     }
     setIsSubmitting(true)
     try{
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000'}/api/user/login`, {
+      const res = await fetch(`${(import.meta.env.VITE_BACKEND_URL ? (import.meta.env.VITE_BACKEND_URL.startsWith("http") ? import.meta.env.VITE_BACKEND_URL : "https://" + import.meta.env.VITE_BACKEND_URL) : "http://localhost:4000")}/api/user/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: formData.email, password: formData.password })

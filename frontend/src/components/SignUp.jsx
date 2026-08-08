@@ -48,7 +48,7 @@ const SignUp = () => {
         type: "info",
       });
   
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000'}/api/user/register`, {
+      const response = await fetch(`${(import.meta.env.VITE_BACKEND_URL ? (import.meta.env.VITE_BACKEND_URL.startsWith("http") ? import.meta.env.VITE_BACKEND_URL : "https://" + import.meta.env.VITE_BACKEND_URL) : "http://localhost:4000")}/api/user/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

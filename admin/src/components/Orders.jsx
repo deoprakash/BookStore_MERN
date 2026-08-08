@@ -6,7 +6,7 @@ import {
 } from 'lucide-react'
 import axios from 'axios'
 
-const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
+const API_BASE = import.meta.env.VITE_BACKEND_URL ? (import.meta.env.VITE_BACKEND_URL.startsWith('http') ? import.meta.env.VITE_BACKEND_URL : `https://${import.meta.env.VITE_BACKEND_URL}`) : 'http://localhost:4000';
 
 const statusOptions = [
   { value: "Pending", label: "Pending", icon: Clock, color: "bg-yellow-100 text-yellow-800", iconColor: "text-yellow-500" },

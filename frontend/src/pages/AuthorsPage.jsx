@@ -12,7 +12,7 @@ const AuthorsPage = () => {
     window.scrollTo(0, 0);
     const fetchAuthors = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000'}/api/author`);
+        const response = await fetch(`${(import.meta.env.VITE_BACKEND_URL ? (import.meta.env.VITE_BACKEND_URL.startsWith("http") ? import.meta.env.VITE_BACKEND_URL : "https://" + import.meta.env.VITE_BACKEND_URL) : "http://localhost:4000")}/api/author`);
         const data = await response.json();
         setAuthors(data);
       } catch (err) {
@@ -57,7 +57,7 @@ const AuthorsPage = () => {
                   <div className="w-auto h-auto rounded-full border-4 border-[#f0fdfa] bg-gray-100 overflow-hidden shadow-md mb-5 relative">
                     {author.image ? (
                       <img 
-                        src={(author.image.startsWith('http') ? author.image : `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000'}${ author.image.startsWith('/') ? '' : '/' }${author.image}`)} 
+                        src={(author.image.startsWith('http') ? author.image : `${(import.meta.env.VITE_BACKEND_URL ? (import.meta.env.VITE_BACKEND_URL.startsWith("http") ? import.meta.env.VITE_BACKEND_URL : "https://" + import.meta.env.VITE_BACKEND_URL) : "http://localhost:4000")}${ author.image.startsWith('/') ? '' : '/' }${author.image}`)} 
                         alt={author.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />

@@ -13,7 +13,7 @@ const AuthorDetailsPage = () => {
     window.scrollTo(0, 0);
     const fetchAuthor = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000'}//api/author/${id}`);
+        const response = await fetch(`${(import.meta.env.VITE_BACKEND_URL ? (import.meta.env.VITE_BACKEND_URL.startsWith("http") ? import.meta.env.VITE_BACKEND_URL : "https://" + import.meta.env.VITE_BACKEND_URL) : "http://localhost:4000")}//api/author/${id}`);
         const data = await response.json();
         setAuthor(data);
       } catch (err) {
@@ -66,7 +66,7 @@ const AuthorDetailsPage = () => {
             <div className="w-48 h-48 flex-shrink-0 rounded-full border-4 border-[#f0fdfa] bg-gray-100 overflow-hidden shadow-lg">
               {author.image ? (
                 <img 
-                  src={(author.image.startsWith('http') ? author.image : `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000'}${ author.image.startsWith('/') ? '' : '/' }${author.image}`)} 
+                  src={(author.image.startsWith('http') ? author.image : `${(import.meta.env.VITE_BACKEND_URL ? (import.meta.env.VITE_BACKEND_URL.startsWith("http") ? import.meta.env.VITE_BACKEND_URL : "https://" + import.meta.env.VITE_BACKEND_URL) : "http://localhost:4000")}${ author.image.startsWith('/') ? '' : '/' }${author.image}`)} 
                   alt={author.name}
                   className="w-full h-full object-cover"
                 />
@@ -110,7 +110,7 @@ const AuthorDetailsPage = () => {
                     <div className="w-full aspect-[2/3] mb-4 overflow-hidden rounded-lg bg-gray-100 shadow-sm relative">
                       {book.image ? (
                         <img 
-                          src={(book.image.startsWith('http') ? book.image : `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000'}${ book.image.startsWith('/') ? '' : '/' }${book.image}`)} 
+                          src={(book.image.startsWith('http') ? book.image : `${(import.meta.env.VITE_BACKEND_URL ? (import.meta.env.VITE_BACKEND_URL.startsWith("http") ? import.meta.env.VITE_BACKEND_URL : "https://" + import.meta.env.VITE_BACKEND_URL) : "http://localhost:4000")}${ book.image.startsWith('/') ? '' : '/' }${book.image}`)} 
                           alt={book.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
